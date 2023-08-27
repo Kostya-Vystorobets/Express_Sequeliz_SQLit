@@ -1,5 +1,6 @@
 import models from '../models';
 import CustomHTTPError from '../errors/index';
+import { Op } from 'sequelize';
 
 
 const { Movie, Actor } = models;
@@ -140,7 +141,6 @@ const movieService = {
         });
     },
 
-
     async getOneMovie(movieId) {
         const movie = await Movie.findByPk(movieId, {
             include: {
@@ -168,15 +168,64 @@ const movieService = {
         };
     },
 
-    async getListMovie() {
-        const movies = await Movie.findAll();
-        const total = movies.length;
+    async getListMovie(req) {
+        const { actor, title, search, sort, order, limit, offset } = req.query;
+
+        const whereCondition = {};
+        const actorCondition = {};
+
+        if (actor) {
+            actorCondition.name = { [Op.like]: `%${actor}%` };
+        }
+
+        if (title) {
+            whereCondition.title = { [Op.like]: `%${title}%` };
+        }
+
+        if (search) {
+            whereCondition.title = { [Op.like]: `%${search}%` };
+            actorCondition.name = { [Op.like]: `%${search}%` };
+        }
+
+        const sortOptions = ['id', 'title', 'year'];
+        const orderOptions = ['ASC', 'DESC'];
+
+        const sortField = sortOptions.includes(sort) ? sort : 'id';
+        const sortOrder = orderOptions.includes(order) ? order : 'ASC';
+
+        const limitValue = parseInt(limit) || 20;
+        const offsetValue = parseInt(offset) || 0;
+
+        const movies = await Movie.findAll({
+            where: whereCondition,
+            include: {
+                model: Actor,
+                attributes: [],
+                through: { attributes: [] },
+                where: actorCondition,
+            },
+            attributes: ['id', 'title', 'year', 'format', 'createdAt', 'updatedAt'],
+            order: [[sortField, sortOrder]],
+            limit: limitValue,
+            offset: offsetValue,
+        });
+
+        const total = await Movie.count({
+            where: whereCondition,
+            include: {
+                model: Actor,
+                through: { attributes: [] },
+                where: actorCondition,
+            },
+        });
+
         return {
             data: movies,
             meta: { total },
             status: 1,
         };
     },
+
 
     async deleteMovie(movieId) {
         const movie = await Movie.findByPk(movieId);

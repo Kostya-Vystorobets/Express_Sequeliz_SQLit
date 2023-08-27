@@ -36,7 +36,7 @@ const moviesController = {
 
     async getListMovie(req, res, next) {
         try {
-            const result = await movieService.getListMovie();
+            const result = await movieService.getListMovie(req);
             res.status(200).send(result);
         } catch (error) {
             next(error);
