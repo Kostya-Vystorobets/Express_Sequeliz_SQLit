@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import registerRouter from './register';
+import userRouter from './user';
 import loginRouter from './login';
 import tokenRouter from './token';
 import logoutRouter from './logout';
 
 const router = Router();
 
-router.use(registerRouter);
+router.use(userRouter);
 router.use(loginRouter);
 router.use(tokenRouter);
 router.use(logoutRouter);

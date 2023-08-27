@@ -17,6 +17,7 @@ export default class App {
 
     setRoutes() {
         this.app.use('/v1', v1Routes);
+
         this.app.use(errorsMiddleware);
     }
 

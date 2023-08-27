@@ -22,6 +22,7 @@ export function registerModels(sequelize) {
     });
 
     models.sequelize = sequelize;
+
 }
 
 export default models;
