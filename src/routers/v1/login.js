@@ -1,22 +1,34 @@
-
 import { Router } from 'express';
-import login from '../../services/login';
+import loginController from '../../controllers/login';
 
 const router = Router();
-
-router.post(
-    '/login',
-    async (req, res) => {
-        try {
-            const result = await login.loginUser(req.body);
-            res.status(200).send(result);
-        } catch (error) {
-            res.status(500).send({ success: false, message: 'Internal Server Error' });
-        }
-    }
-);
+router.post('/login', loginController.loginUser);
 
 export default router;
+
+
+
+
+
+
+// import { Router } from 'express';
+// import login from '../../services/login';
+
+// const router = Router();
+
+// router.post(
+//     '/login',
+//     async (req, res) => {
+//         try {
+//             const result = await login.loginUser(req.body);
+//             res.status(200).send(result);
+//         } catch (error) {
+//             res.status(500).send({ success: false, message: 'Internal Server Error' });
+//         }
+//     }
+// );
+
+// export default router;
 
 
 

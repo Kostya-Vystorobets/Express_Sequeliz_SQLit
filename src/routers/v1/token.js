@@ -1,21 +1,30 @@
 import { Router } from 'express';
-import token from '../../services/token';
+import tokenController from '../../controllers/token';
 
 const router = Router();
-
-router.post(
-    '/token',
-    async (req, res) => {
-        try {
-            const result = await token.generateAccessToken(req.body);
-            res.status(result.success ? 200 : 401).send(result);
-        } catch (error) {
-            res.status(500).send({ success: false, message: 'Internal Server Error' });
-        }
-    }
-);
+router.post('/token', tokenController.generateAccessToken);
 
 export default router;
+
+
+// import { Router } from 'express';
+// import token from '../../services/token';
+
+// const router = Router();
+
+// router.post(
+//     '/token',
+//     async (req, res) => {
+//         try {
+//             const result = await token.generateAccessToken(req.body);
+//             res.status(result.success ? 200 : 401).send(result);
+//         } catch (error) {
+//             res.status(500).send({ success: false, message: 'Internal Server Error' });
+//         }
+//     }
+// );
+
+// export default router;
 
 
 

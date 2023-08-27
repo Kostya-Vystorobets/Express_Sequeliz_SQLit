@@ -1,21 +1,31 @@
 import { Router } from 'express';
-import logout from '../../services/logout';
+import logoutController from '../../controllers/logout';
 
 const router = Router();
-
-router.post(
-    '/logout',
-    async (req, res) => {
-        try {
-            const result = await logout.logoutUser(req.body);
-            res.status(200).send(result);
-        } catch (error) {
-            res.status(500).send({ success: false, message: 'Internal Server Error' });
-        }
-    }
-);
+router.post('/logout', logoutController.logoutUser);
 
 export default router;
+
+
+
+// import { Router } from 'express';
+// import logout from '../../services/logout';
+
+// const router = Router();
+
+// router.post(
+//     '/logout',
+//     async (req, res) => {
+//         try {
+//             const result = await logout.logoutUser(req.body);
+//             res.status(200).send(result);
+//         } catch (error) {
+//             res.status(500).send({ success: false, message: 'Internal Server Error' });
+//         }
+//     }
+// );
+
+// export default router;
 
 
 

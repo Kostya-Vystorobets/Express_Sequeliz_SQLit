@@ -9,8 +9,7 @@ const movieService = {
         const { title, year, format, actors } = movieData;
         const existingMovie = await Movie.findOne({ where: { title } });
         if (existingMovie) {
-            throw CustomHTTPError.BadRequest(`Department with the specified name () already exists.`);
-            // return { success: false, message: 'Movie with this title already exists' };
+            throw CustomHTTPError.BadRequest(`Movie with the specified name ${title} already exists.`);
         }
         return models.sequelize.transaction(async (transaction) => {
             const movie = await Movie.create(
