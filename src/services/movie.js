@@ -1,10 +1,17 @@
 import models from '../models';
+import CustomHTTPError from '../errors/index';
+
 
 const { Movie, Actor } = models;
 
 const movieService = {
     async createMovie(movieData) {
         const { title, year, format, actors } = movieData;
+        const existingMovie = await Movie.findOne({ where: { title } });
+        if (existingMovie) {
+            throw CustomHTTPError.BadRequest(`Department with the specified name () already exists.`);
+            // return { success: false, message: 'Movie with this title already exists' };
+        }
         return models.sequelize.transaction(async (transaction) => {
             const movie = await Movie.create(
                 {

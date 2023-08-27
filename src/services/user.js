@@ -1,5 +1,6 @@
 import models from '../models';
 import JWTUtils from '../utils/jwt-utils';
+import CustomHTTPError from '../errors/index'
 
 const { User } = models;
 
@@ -9,7 +10,7 @@ const registerService = {
         const { email } = userData;
         const user = await User.findOne({ where: { email } });
         if (user) {
-            return { success: false, message: 'User already exists' };
+            throw CustomHTTPError.BadRequest(`User with this email already exists`);
         }
 
         const payload = { email };

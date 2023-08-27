@@ -1,17 +1,19 @@
 import { Router } from 'express';
 import movieService from '../../services/movie';
 
+
 const router = Router();
 
 router.post(
     '/movies',
     async (req, res) => {
-        try {
-            const result = await movieService.createMovie(req.body);
-            res.status(201).send(result);
-        } catch (error) {
-            res.status(500).send({ success: false, message: 'Internal Server Error' });
-        }
+        // try {
+        const result = await movieService.createMovie(req.body);
+        res.status(201).send(result);
+        // } catch (error) {
+        //     console.dirxml(error)
+        //     res.status(500).send({ success: false, message: 'Internal Server Error' });
+        // }
     }
 );
 

@@ -1,21 +1,33 @@
-
 import { Router } from 'express';
-import registerService from '../../services/user';
+import usersController from '../../controllers/user';
+import errorHandlerAsync from '../../middlewares/errorHandlerAsync';
 
 const router = Router();
-router.post(
-    '/users',
-    async (req, res) => {
-        try {
-            const result = await registerService.registerUser(req.body);
-            res.status(200).send(result);
-        } catch (error) {
-            res.status(500).send({ success: false, message: 'Internal Server Error' });
-        }
-    }
-);
+router.post('/users', errorHandlerAsync(usersController.registerUser));
 
 export default router;
+
+
+
+
+
+// import { Router } from 'express';
+// import registerService from '../../services/user';
+
+// const router = Router();
+// router.post(
+//     '/users',
+//     async (req, res) => {
+//         try {
+//             const result = await registerService.registerUser(req.body);
+//             res.status(200).send(result);
+//         } catch (error) {
+//             res.status(500).send({ success: false, message: 'Internal Server Error' });
+//         }
+//     }
+// );
+
+// export default router;
 
 
 
