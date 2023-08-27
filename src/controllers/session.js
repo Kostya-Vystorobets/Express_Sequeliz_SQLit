@@ -1,9 +1,9 @@
-import loginService from '../services/login';
+import sessionService from '../services/session';
 
 const loginController = {
-    async loginUser(req, res, next) {
+    async sessionUser(req, res, next) {
         try {
-            const result = await loginService.loginUser(req.body);
+            const result = await sessionService.sessionUser(req.body);
             res.status(200).send(result);
         } catch (error) {
             next(error);

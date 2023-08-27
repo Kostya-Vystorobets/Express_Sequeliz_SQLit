@@ -1,13 +1,14 @@
 import { Router } from 'express';
 import moviesController from '../../controllers/movie';
+import requiresAuth from '../../middlewares/requiresAuth';
 
 const router = Router();
 
-router.post('/movies', moviesController.createMovie);
-router.put('/movies/:movieId', moviesController.updateMovie);
-router.get('/movies/:movieId', moviesController.getOneMovie);
-router.get('/movies', moviesController.getListMovie);
-router.delete('/movies/:movieId', moviesController.deleteMovie);
+router.post('/movies', requiresAuth(), moviesController.createMovie);
+router.put('/movies/:movieId', requiresAuth(), moviesController.updateMovie);
+router.get('/movies/:movieId', requiresAuth(), moviesController.getOneMovie);
+router.get('/movies', requiresAuth(), moviesController.getListMovie);
+router.delete('/movies/:movieId', requiresAuth(), moviesController.deleteMovie);
 
 export default router;
 
