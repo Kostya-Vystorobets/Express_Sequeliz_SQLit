@@ -1,17 +1,15 @@
 
 import { Router } from 'express';
-import register from '../../services/user';
+import registerService from '../../services/user';
 
 const router = Router();
-console.dir("test")
 router.post(
     '/users',
     async (req, res) => {
         try {
-            const result = await register.registerUser(req.body);
+            const result = await registerService.registerUser(req.body);
             res.status(200).send(result);
         } catch (error) {
-            console.dir("result2", error)
             res.status(500).send({ success: false, message: 'Internal Server Error' });
         }
     }

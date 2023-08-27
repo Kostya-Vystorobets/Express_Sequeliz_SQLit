@@ -3,7 +3,7 @@ import JWTUtils from '../utils/jwt-utils';
 
 const { User } = models;
 
-const register = {
+const registerService = {
     async registerUser(userData) {
 
         const { email } = userData;
@@ -32,7 +32,7 @@ const register = {
     },
 };
 
-export default register;
+export default registerService;
 
 
 
