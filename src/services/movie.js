@@ -81,13 +81,65 @@ const movieService = {
             );
 
             if (actors && Array.isArray(actors)) {
-                await movie.setActors([], { transaction });
-                await movie.addActors(actors, { transaction });
-            }
+                const currentActors = await movie.getActors();
 
-            return movie;
+                const newActorNames = actors.filter((actorName) => {
+                    return !currentActors.some((actor) => actor.name === actorName);
+                });
+
+                const actorsToAdd = [];
+                const actorsToRemove = [];
+
+                for (const actorName of newActorNames) {
+                    let actor = await Actor.findOne({ where: { name: actorName } });
+
+                    if (!actor) {
+                        actor = await Actor.create({ name: actorName }, { transaction });
+                    }
+
+                    actorsToAdd.push(actor);
+                }
+
+                for (const actor of currentActors) {
+                    if (!actors.includes(actor.name)) {
+                        actorsToRemove.push(actor);
+                    }
+                }
+                const associatedActors = await movie.getActors();
+
+                await movie.removeActors(actorsToRemove, { transaction });
+                await movie.addActors(actorsToAdd, { transaction });
+                for (const actor of associatedActors) {
+                    const actorMovies = await actor.getMovies();
+                    if (actorMovies.length === 0) {
+                        await actor.destroy();
+                    }
+                }
+            }
+            const movieWithActors = await Movie.findByPk(movie.id, {
+                include: {
+                    model: Actor,
+                    attributes: ['id', 'name', 'createdAt', 'updatedAt'],
+                    through: { attributes: [] },
+                },
+                transaction,
+            });
+
+            return {
+                data: {
+                    id: movieWithActors.id,
+                    title: movieWithActors.title,
+                    year: movieWithActors.year,
+                    format: movieWithActors.format,
+                    actors: movieWithActors.Actors,
+                    createdAt: movieWithActors.createdAt,
+                    updatedAt: movieWithActors.updatedAt,
+                },
+                status: 1,
+            };
         });
     },
+
 
     async getOneMovie(movieId) {
         const movie = await Movie.findByPk(movieId, {
@@ -117,18 +169,38 @@ const movieService = {
     },
 
     async getListMovie() {
-        return Movie.findAll();
+        const movies = await Movie.findAll();
+        const total = movies.length;
+        return {
+            data: movies,
+            meta: { total },
+            status: 1,
+        };
     },
 
     async deleteMovie(movieId) {
         const movie = await Movie.findByPk(movieId);
+
         if (!movie) {
             throw new Error('Movie not found');
         }
 
+        const associatedActors = await movie.getActors();
+
+        await movie.setActors([]);
+
         await movie.destroy();
-        return { success: true, message: 'Movie deleted' };
+
+        for (const actor of associatedActors) {
+            const actorMovies = await actor.getMovies();
+            if (actorMovies.length === 0) {
+                await actor.destroy();
+            }
+        }
+
+        return { status: 1, };
     },
+
 };
 
 export default movieService;

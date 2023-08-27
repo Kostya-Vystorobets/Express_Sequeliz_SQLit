@@ -3,7 +3,8 @@ import { Model, DataTypes } from 'sequelize';
 export default (sequelize) => {
     class Movie extends Model {
         static associate(models) {
-            Movie.belongsToMany(models.Actor, { through: 'MovieActors' });
+            Movie.belongsToMany(models.Actor, { through: 'MovieActors', foreignKey: 'movieId' });
+
         }
 
         static async createNewMovie({ title, year, format, actors }) {
