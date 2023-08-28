@@ -2,7 +2,6 @@ import models from '../models';
 import CustomHTTPError from '../errors/index';
 import { Op } from 'sequelize';
 
-
 const { Movie, Actor } = models;
 
 const movieService = {
@@ -248,6 +247,10 @@ const movieService = {
         }
 
         return { status: 1, };
+    },
+
+    async getTotalMoviesCount() {
+        return Movie.count();
     },
 
 };

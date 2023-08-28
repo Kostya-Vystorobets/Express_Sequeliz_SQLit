@@ -1,24 +1,24 @@
-
-
 import importMoviesService from '../services/importMovies';
-import CustomHTTPError from '../errors/index';
+import { uploadFileMiddleware } from '../middlewares/uploadFile';
+
+
 
 const importMoviesController = {
     async importMovies(req, res, next) {
         try {
+            uploadFileMiddleware(req, res, async (error) => {
+                if (error) {
+                    return res.status(400).json({ success: false, message: 'File upload failed' });
+                }
 
-            const { file } = req.files;
+                const { buffer } = req.file;
+                const fileContent = buffer.toString('utf8');
 
-            if (!file) {
-                throw CustomHTTPError.BadRequest('File is required');
-            }
-
-            const result = await importMoviesService.importMoviesFromFile(file.path);
-
-            res.status(200).send(result);
+                const result = await importMoviesService.importMovies(fileContent);
+                return res.status(200).send(result);
+            });
         } catch (error) {
             next(error);
-
         }
     },
 };

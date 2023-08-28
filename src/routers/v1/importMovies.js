@@ -4,6 +4,8 @@ import requiresAuth from '../../middlewares/requiresAuth';
 
 const router = Router();
 
-router.post('/movies/import', requiresAuth(), upload.single('movies'), importMoviesController.importMovies);
+router.post('/movies/import', requiresAuth(), importMoviesController.importMovies);
 
 export default router;
+
+
