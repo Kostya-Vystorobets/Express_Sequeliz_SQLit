@@ -209,18 +209,23 @@ const movieService = {
             offset: offsetValue,
         });
 
-        const total = await Movie.count({
+        const total = await Movie.findAll({
             where: whereCondition,
             include: {
                 model: Actor,
+                attributes: [],
                 through: { attributes: [] },
                 where: actorCondition,
             },
-        });
+            order: [[sortField, sortOrder]],
 
+        });
+        console.dirxml(total.length)
         return {
             data: movies,
-            meta: { total },
+            meta: {
+                total: total.length
+            },
             status: 1,
         };
     },

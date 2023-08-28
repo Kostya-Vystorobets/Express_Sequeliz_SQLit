@@ -4,9 +4,6 @@ import environment from '../config/environment';
 
 export default (sequelize) => {
     class User extends Model {
-        static associate(models) {
-            User.RefreshToken = User.hasOne(models.RefreshToken);
-        }
 
         static async hashPassword(password) {
             return bcrypt.hash(password, environment.saltRounds);
@@ -16,7 +13,6 @@ export default (sequelize) => {
             email,
             name,
             password,
-            refreshToken,
         }) {
             return sequelize.transaction(() => {
                 return User.create(
@@ -24,9 +20,7 @@ export default (sequelize) => {
                         email,
                         name,
                         password,
-                        RefreshToken: { token: refreshToken },
-                    },
-                    { include: [User.RefreshToken] }
+                    }
                 );
             });
         }

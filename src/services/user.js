@@ -20,15 +20,15 @@ const registerService = {
 
         const payload = { email };
         const accessToken = JWTUtils.generateAccessToken(payload);
-        const refreshToken = JWTUtils.generateRefreshToken(payload);
 
         try {
-            await User.createNewUser({ email, name, password, refreshToken });
+            await User.createNewUser({ email, name, password });
             return {
                 token: accessToken,
                 status: 1,
             };
         } catch (error) {
+            console.dirxml(error)
             throw new Error('User registration failed');
         }
     },
