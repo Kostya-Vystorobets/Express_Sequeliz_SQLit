@@ -2,4 +2,6 @@
 /coverage
 /dist
 /src/database/dbSQLite
+.gitignore
+.prettierrc
 .env
