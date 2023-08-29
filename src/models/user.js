@@ -4,10 +4,6 @@ import environment from '../config/environment';
 
 export default (sequelize) => {
     class User extends Model {
-        static associate(models) {
-            User.RefreshToken = User.hasOne(models.RefreshToken);
-            User.Roles = User.hasMany(models.Role);
-        }
 
         static async hashPassword(password) {
             return bcrypt.hash(password, environment.saltRounds);
@@ -15,31 +11,16 @@ export default (sequelize) => {
 
         static async createNewUser({
             email,
+            name,
             password,
-            roles,
-            username,
-            firstName,
-            lastName,
-            refreshToken,
         }) {
             return sequelize.transaction(() => {
-                let rolesToSave = [];
-
-                if (roles && Array.isArray(roles)) {
-                    rolesToSave = roles.map((role) => ({ role }));
-                }
-
                 return User.create(
                     {
                         email,
+                        name,
                         password,
-                        username,
-                        firstName,
-                        lastName,
-                        RefreshToken: { token: refreshToken },
-                        Roles: rolesToSave,
-                    },
-                    { include: [User.RefreshToken, User.Roles] }
+                    }
                 );
             });
         }
@@ -60,37 +41,18 @@ export default (sequelize) => {
                     },
                 },
             },
+            name: {
+                type: DataTypes.STRING(100),
+                allowNull: false,
+                validate: {
+                    notNull: {
+                        msg: 'Name is required',
+                    },
+                },
+            },
             password: {
                 type: DataTypes.STRING,
                 allowNull: false,
-            },
-            username: {
-                type: DataTypes.STRING(50),
-                unique: true,
-                validate: {
-                    len: {
-                        args: [2, 50],
-                        msg: 'Username must contain between 2 and 50 characters',
-                    },
-                },
-            },
-            firstName: {
-                type: DataTypes.STRING(50),
-                validate: {
-                    len: {
-                        args: [3, 50],
-                        msg: 'First name must contain between 3 and 50 characters',
-                    },
-                },
-            },
-            lastName: {
-                type: DataTypes.STRING(50),
-                validate: {
-                    len: {
-                        args: [3, 50],
-                        msg: 'Last name must contain between 3 and 50 characters',
-                    },
-                },
             },
         },
         {
