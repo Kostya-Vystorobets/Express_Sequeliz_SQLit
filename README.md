@@ -1,68 +1,88 @@
 # Movie Management System
 
-This is a web application built using Node.js, Express.js, Sequelize ORM, and SQLite database. It allows users to store and manage information about movies, including their title, release year, format, and actors.
+This repository contains a web application developed using Node.js, Express.js, Sequelize ORM, and an SQLite database. The purpose of this application is to provide users with a platform to manage and store information about movies, including details such as title, release year, format, and actors.
 
 ## Features
 
-- User Authentication
-- Add, Delete, and Retrieve Movies
-- Display Movie Information
-- Sort Movies Alphabetically
-- Search Movies by Title
-- Search Movies by Actor Name
-- Import Movies from Text File
+- **User Authentication**: Secure user authentication system.
+- **Add, Delete, and Retrieve Movies**: Users can perform CRUD (Create, Read, Update, Delete) operations on movies.
+- **Display Movie Information**: Detailed information about movies is displayed.
+- **Alphabetical Sorting**: Movies can be sorted alphabetically by title.
+- **Search Functionality**: Users can search for movies by title or actor name.
+- **Import Movies**: Ability to import movies from a text file.
 
 ## Project Structure
 
-The project is structured as follows:
+The project directory structure is organized as follows:
 
+```
 project-directory/
 |-- controllers/
-| |-- authController.js
-| |-- movieController.js
+| |-- session.js
+| |-- user.js
+| |-- movie.js
+| |-- importMovie.js
 |-- models/
-| |-- index.js
 | |-- User.js
+| |-- Actor.js
 | |-- Movie.js
 |-- routes/
-| |-- authRoutes.js
-| |-- movieRoutes.js
+| |-- session.js
+| |-- user.js
+| |-- movie.js
+| |-- importMovie.js
+|-- services/
+| |-- session.js
+| |-- user.js
+| |-- movie.js
+| |-- actor.js
+| |-- importMovie.js
+|-- middlewares/
+| |-- errorHandler.js
+| |-- errorHandlerAsync.js
+| |-- requiresAuth.js
+| |-- uploadFile.js
+|-- utils/
+| |-- jwt-utils.js
 |-- uploads/
 |-- app.js
+|-- server.js
 |-- package.json
-|-- sample_movies.txt
 |-- README.md
+```
 
 ## Getting Started
 
+To get the project up and running, follow these steps:
+
 1. Install dependencies:
 
-```
+```bash
 npm install
-
-npm run build
-
-node dist/server.js
-
 ```
 
-The server will run at http://localhost:8000.
+2. Build and run the project:
 
-API Endpoints
-Authentication:
+```bash
+npm run build
+node dist/server.js
+```
 
-POST /auth/register: Register a new user.
-POST /auth/login: Log in with existing credentials.
-Movie Management:
+The server will be accessible at http://localhost:8000.
 
-POST /movies: Add a new movie.
-GET /movies: Get a list of all movies.
-GET /movies/:id: Get details of a specific movie.
-PUT /movies/:id: Update movie details.
-DELETE /movies/:id: Delete a movie.
-GET /movies/sort: Get movies sorted alphabetically by title.
-GET /movies/search/:title: Search movies by title.
-GET /movies/search/actor/:name: Search movies by actor name.
-POST /movies/import: Import movies from a text file.
-Contributing
-Contributions are welcome! Please create a pull request for any enhancements or bug fixes.
+## API Endpoints
+
+### Authentication:
+
+- `POST /api/v1/users`: Register a new user.
+- `POST /api/v1/sessions`: Log in with existing credentials.
+
+### Movie Management:
+
+- `POST api/v1/movies`: Add a new movie.
+- `GET /api/v1/movies`: Retrieve a list of all movies.
+- `GET /api/v1/movies?actor=Humphrey&sort=year&order=DESC&limit=4&offset=2`: Get movies with options to filter by name or actor, sort by year or title, set order, limit results, and paginate. The endpoint supports searching for movies by title or actor name.
+- `GET /api/v1/movies/:id`: Get details of a specific movie.
+- `PATCH /api/v1/movies/:id`: Update movie details.
+- `DELETE /api/v1/movies/:id`: Delete a movie.
+- `POST api/v1/movies/import`: Import movies from a text file.
