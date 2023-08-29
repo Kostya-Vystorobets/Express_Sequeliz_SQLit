@@ -8,7 +8,6 @@ export default class Database {
     }
 
     async connect() {
-
         const { storage, dialect } = this.dbConfig[this.environment];
         this.connection = new Sequelize({
             dialect,

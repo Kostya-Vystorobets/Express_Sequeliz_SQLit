@@ -220,7 +220,6 @@ const movieService = {
             order: [[sortField, sortOrder]],
 
         });
-        console.dirxml(total.length)
         return {
             data: movies,
             meta: {

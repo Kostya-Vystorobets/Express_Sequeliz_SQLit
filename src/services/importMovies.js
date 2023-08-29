@@ -36,7 +36,6 @@ const movieImportService = {
                 status: 1,
             };
         } catch (error) {
-            console.dirxml(error)
             throw new CustomHTTPError.BadRequest('Error importing movies');
         }
     },

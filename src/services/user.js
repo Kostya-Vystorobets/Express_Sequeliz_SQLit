@@ -28,7 +28,6 @@ const registerService = {
                 status: 1,
             };
         } catch (error) {
-            console.dirxml(error)
             throw new Error('User registration failed');
         }
     },
