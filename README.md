@@ -17,36 +17,44 @@ The project directory structure is organized as follows:
 
 ```
 project-directory/
-|-- controllers/
-| |-- session.js
-| |-- user.js
-| |-- movie.js
-| |-- importMovie.js
-|-- models/
-| |-- User.js
-| |-- Actor.js
-| |-- Movie.js
-|-- routes/
-| |-- session.js
-| |-- user.js
-| |-- movie.js
-| |-- importMovie.js
-|-- services/
-| |-- session.js
-| |-- user.js
-| |-- movie.js
-| |-- actor.js
-| |-- importMovie.js
-|-- middlewares/
-| |-- errorHandler.js
-| |-- errorHandlerAsync.js
-| |-- requiresAuth.js
-| |-- uploadFile.js
-|-- utils/
-| |-- jwt-utils.js
-|-- uploads/
-|-- app.js
-|-- server.js
+|-- src/
+| |-- config/
+| | |-- index.js
+| | |-- database.js
+| | |-- environment.js
+| |-- controllers/
+| | |-- session.js
+| | |-- user.js
+| | |-- movie.js
+| | |-- importMovie.js
+| |-- models/
+| | |-- User.js
+| | |-- Actor.js
+| | |-- Movie.js
+| |-- routes/
+| | |-- index.js
+| | |-- session.js
+| | |-- user.js
+| | |-- movie.js
+| | |-- importMovie.js
+| |-- services/
+| | |-- index.js
+| | |-- session.js
+| | |-- user.js
+| | |-- movie.js
+| | |-- actor.js
+| | |-- importMovie.js
+| |-- middlewares/
+| | |-- errorHandler.js
+| | |-- errorHandlerAsync.js
+| | |-- requiresAuth.js
+| | |-- uploadFile.js
+| |-- errors/
+| | |-- index.js
+| |-- utils/
+| | |-- jwt-utils.js
+| |-- app.js
+| |-- server.js
 |-- package.json
 |-- README.md
 ```
