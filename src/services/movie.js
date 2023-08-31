@@ -1,5 +1,6 @@
 import models from '../models';
 import CustomHTTPError from '../errors/index';
+import validateActorData from '../validations/actor';
 import { Op } from 'sequelize';
 
 const { Movie, Actor } = models;
@@ -28,6 +29,7 @@ const movieService = {
                     let actor = await Actor.findOne({ where: { name: actorName } });
 
                     if (!actor) {
+                        validateActorData({ name: actorName })
                         actor = await Actor.create({ name: actorName }, { transaction });
                     }
 

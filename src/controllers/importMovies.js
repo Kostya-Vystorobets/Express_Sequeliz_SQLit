@@ -1,8 +1,6 @@
 import importMoviesService from '../services/importMovies';
 import { uploadFileMiddleware } from '../middlewares/uploadFile';
 
-
-
 const importMoviesController = {
     async importMovies(req, res, next) {
         try {

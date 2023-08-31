@@ -19,6 +19,11 @@ export default (sequelize) => {
             name: {
                 type: DataTypes.STRING,
                 allowNull: false,
+                validate: {
+                    notNull: {
+                        msg: 'Name is required',
+                    },
+                },
             },
         },
         {
