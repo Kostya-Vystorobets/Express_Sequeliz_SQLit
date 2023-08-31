@@ -53,6 +53,11 @@ export default (sequelize) => {
             password: {
                 type: DataTypes.STRING,
                 allowNull: false,
+                validate: {
+                    notNull: {
+                        msg: 'Password is required',
+                    },
+                },
             },
         },
         {
